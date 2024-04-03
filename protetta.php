@@ -112,7 +112,7 @@ if (!isset($_SESSION['UTENTE'])) {
 
     .scuoti {
     border-color: red; /* Cambia il colore del bordo per indicare che la casella di testo è scossa */
-    animation: shake 0.5s; /* Aggiungi un'animazione di scuotimento */
+    animation: shake 0.5s; /* Aggiunge un'animazione di scuotimento */
     }
 
     @keyframes shake {
@@ -135,7 +135,7 @@ if (!isset($_SESSION['UTENTE'])) {
             // Codice per browser moderni
             return new XMLHttpRequest();
         } else {
-            // Codice per browser legacy
+            // Codice per browser vecchi
             return new ActiveXObject("Microsoft.XMLHTTP");
         }
     }
@@ -151,10 +151,10 @@ if (!isset($_SESSION['UTENTE'])) {
         xhr.open("GET", "mostra_tabella.php?table_name=" + tableName, true);
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                // Ricevi la risposta e aggiungi il contenuto alla pagina
+                // Riceve la risposta e aggiunge il contenuto alla pagina
                 document.getElementById("tabella").innerHTML = xhr.responseText;
 
-                // Dopo aver ottenuto il contenuto della tabella, aggiunge i listener agli eventi di click sulle righe
+                // Aggiunge i listener agli eventi di click sulle righe
                 var rows = document.getElementById("myTable").getElementsByTagName("tr");
                 for (var i = 0; i < rows.length; i++) {
                     var currentRow = rows[i];
@@ -175,13 +175,11 @@ if (!isset($_SESSION['UTENTE'])) {
     // Funzione per eseguire la query di ricerca
     function eseguiRicerca() {
 
-        // Ottieni il valore selezionato dalla combobox
+        // Ottiene il valore selezionato dalla combobox
         var tabella = document.getElementById("select").value;
 
         // Inizializza la stringa della query di ricerca
         var query = "SELECT ";
-
-        // Inizializza un array per memorizzare i nomi delle colonne selezionate
         var colonneSelezionate = [];
 
         // Seleziona tutte le checkbox di filtro
@@ -190,9 +188,9 @@ if (!isset($_SESSION['UTENTE'])) {
         // Cicla attraverso tutte le checkbox
         checkboxes.forEach(function(checkbox) {
             if (checkbox.checked) {
-                // Ottieni il nome della colonna dalla checkbox
+                // Nome della colonna dalla checkbox
                 var colonna = checkbox.id.replace("filtro_", "").replace("_checkbox", "");
-                // Aggiungi la colonna agli array delle colonne selezionate e della query
+                // Colonna agli array delle colonne selezionate e della query
                 colonneSelezionate.push(colonna);
             }
         });
@@ -207,8 +205,6 @@ if (!isset($_SESSION['UTENTE'])) {
 
         // Seleziona tutti gli elementi di input di tipo text all'interno della form con id "2"
         var textBoxes = document.getElementById("2").getElementsByTagName('input');
-
-        // Inizializza un array per memorizzare le condizioni di ricerca
         var condizioni = [];
 
         // Cicla attraverso tutte le textbox
@@ -226,10 +222,8 @@ if (!isset($_SESSION['UTENTE'])) {
             query += " WHERE ";
         }
 
-        // Aggiungi le condizioni alla query
+        // Aggiunge le condizioni alla query
         query += condizioni.join(" AND ");
-
-        // Esegui qui la query con query
         console.log("Query di ricerca:", query);
 
         var xhr = createXHR();
@@ -250,7 +244,7 @@ if (!isset($_SESSION['UTENTE'])) {
                             var cells = this.getElementsByTagName("td");
                             // Cicla attraverso tutte le colonne della riga selezionata
                             for (var j = 0; j < cells.length; j++) {
-                                // Ottieni l'ID della textbox corrispondente alla colonna
+                                // Ottiene l'ID della textbox corrispondente alla colonna
                                 var textBoxId = "filtro_" + j;
                                 var textBox = document.getElementById(textBoxId);
                                 if (textBox) {
@@ -282,7 +276,7 @@ if (!isset($_SESSION['UTENTE'])) {
         xhr.open("GET", "mostra_utili.php?table_name=" + tableName, true);
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                // Ricevi la risposta e aggiungi il contenuto alla pagina
+                // Ricevi la risposta e aggiorna il contenuto alla pagina
                 document.getElementById("utili").innerHTML = xhr.responseText;
             }
         };
@@ -319,24 +313,19 @@ if (!isset($_SESSION['UTENTE'])) {
                 scuotiCaselleDiTesto(formid);
                 return false; // Blocca la funzione
             }
-
-            // Altrimenti, se tutti i campi sono compilati, procedi con l'azione desiderata
-            // Esempio: Invio del modulo
-            return true; // Consente l'esecuzione della funzione
+            return true; // Permette l'esecuzione della funzione
         }
 
     function svuotaCaselle() {
         // Svuota le caselle di testo nel modulo con id uguale a 1
         svuotaCaselleModulo('1');
-        
-        // Svuota le caselle di testo nel modulo con id uguale a 3
+        // svuota le caselle di testo nel modulo con id uguale a 3
         svuotaCaselleModulo('3');
     }
 
     function svuotaCaselleModulo(idModulo) {
         // Seleziona il modulo con l'id specificato
         var modulo = document.getElementById(idModulo);
-
         // Se il modulo esiste
         if (modulo) {
             // Seleziona tutte le caselle di testo all'interno del modulo
@@ -367,13 +356,13 @@ if (!isset($_SESSION['UTENTE'])) {
                 }
             });
 
-            // Rimuovi la classe di scuotimento dopo un po' di tempo
+            // Rimuovi la classe di scuotimento
             if (ciSonoCaselleVuote) {
                 setTimeout(function() {
                     caselleDiTesto.forEach(function(casellaDiTesto) {
                         casellaDiTesto.classList.remove('scuoti');
                     });
-                }, 1000); // Tempo in millisecondi dopo il quale rimuovere la classe di scuotimento (es. 1000ms = 1 secondo)
+                }, 1000); // ps per me, il tempo è in millisecondi
             }
         }
     }
@@ -414,7 +403,6 @@ if ($result->num_rows > 0) {
     echo "Nessuna tabella trovata nel database.";
 }
 
-// Chiudi la connessione al database
 $conn->close();
 ?>
 
@@ -423,7 +411,7 @@ $conn->close();
   </div>
 
   <div id="utili">
-    <!-- qui verranno visualizzati i risultati filtrati dal database-->
+    <!-- idem per qua -->
   </div>
 
 <script>
@@ -471,9 +459,8 @@ function modifica() {
 
     Query += " WHERE id =" + val;
 
-    // Esegui qui la query con updateQuery
+    // Esecuzione della query
     console.log("Query di aggiornamento:", Query);
-
 
     var xhr = createXHR();
     xhr.open("POST", "esegui_query.php", true);
@@ -508,7 +495,7 @@ function cancella(){
             console.log("Fine.");
             return;
         }
-    var id = document.getElementById("id").value; // Ottieni il valore dall'input con id "id"
+    var id = document.getElementById("id").value; //tramite id
     console.log(id);
     var selectElement = document.getElementById("select");
     var tableName = selectElement.value;
@@ -521,7 +508,6 @@ function cancella(){
             if (xhr.status === 200) {
                 console.log("Richiesta completata con successo");
                 console.log("Risposta dal server:", xhr.responseText);
-                // Gestisci la risposta dal server se necessario
             } else {
                 console.error("Si è verificato un errore durante la richiesta:", xhr.status);
             }
@@ -536,7 +522,7 @@ function aggiungi(){
     stampatabella();
     var formId = "3";
     if (!controllaCampi(formId)) {
-        // Se i campi non sono compilati, interrompi l'esecuzione della funzione aggiungi()
+        // Interruzzione in caso non siano completati i campi
         return;
     }
     if (continua()) {
@@ -557,7 +543,7 @@ for (var i = 0; i < inputs.length; i++) {
     if (input.type === 'text') {
         var id = input.id;
         var value = input.value;
-        // Escludi l'id "id" dalla lista delle colonne
+        // Esclude l'id "id" dalla lista delle colonne
         if (id !== "id") {
             colonne.push(id);
             valori.push("'" + value + "'");
@@ -569,7 +555,7 @@ var Query = "INSERT INTO " + selectedValue + " (";
 Query += colonne.join(", ") + ") VALUES (";
 Query += valori.join(", ") + ");";
 
-// Esegui qui la query con insertQuery
+// Esegue la query
 console.log("Query di inserimento:", Query);
 
 var xhr = createXHR();
@@ -580,7 +566,6 @@ xhr.onreadystatechange = function() {
         if (xhr.status === 200) {
             console.log("Richiesta completata con successo");
             console.log("Risposta dal server:", xhr.responseText);
-            // Gestisci la risposta dal server se necessario
         } else {
             console.error("Si è verificato un errore durante la richiesta:", xhr.status);
         }
