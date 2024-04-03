@@ -3,13 +3,13 @@
 <?php
 session_start();
 
-$n=$_REQUEST["Nome"];
-$p=$_REQUEST["Password"];
+$n=$_REQUEST["username"];
+$p=$_REQUEST["password"];
 
 $servername = "localhost";
-$username = "RaoulBova";
+$username = "BonnieTyler";
 $password = "12345";
-$dbname = "formula1";
+$dbname = "allaboutpc";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -31,7 +31,7 @@ SeggPazz
 
 */
 
-$sql = "SELECT Username, Password FROM utenti WHERE Username = '$n' AND Password = '$p'";
+$sql = "SELECT username, Password FROM utenti WHERE username = '$n' AND password = '$p'";
 $result = $conn->query($sql);
 
 if ($result !== false && $result->num_rows > 0) {
@@ -43,6 +43,9 @@ if ($result !== false && $result->num_rows > 0) {
     // L'utente non è autenticato, pulisci la sessione e mostra un messaggio di errore
     unset($_SESSION["UTENTE"]);
     echo "Non autenticato";
+    $pagina_destinazione = "accesso.html";
+    echo "<br>";
+    echo "<a href='$pagina_destinazione'>Torna al login</a>";
 }
 
 $conn->close();
